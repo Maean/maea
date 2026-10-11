@@ -1,5 +1,29 @@
 // auth.js — Next-Gen Cosmic Glassmorphism Authentication & Canvas Effects
 
+// ── Supabase config ─────────────────────────────────────────────────────────
+const SUPABASE_URL  = 'https://uokcpwxumfkvissnntuy.supabase.co';
+const SUPABASE_KEY  = 'sb_publishable_50bVPIVMnVTCZroq0AVgjg_l1fQfmDq';
+const FALLBACK_PASS = 'whimsical'; // used when offline
+
+const _supabase = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+    : null;
+
+async function getPassword() {
+    if (_supabase) {
+        try {
+            const { data, error } = await _supabase
+                .from('config')
+                .select('value')
+                .eq('key', 'password')
+                .single();
+            if (!error && data) return data.value;
+        } catch (_) {}
+    }
+    // offline or error — fall back to local
+    return FALLBACK_PASS;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // ── Element References ──────────────────────────────────────────────────
     const form            = document.getElementById('login-form');
@@ -368,12 +392,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── 6. Form Submit & Authentication Flow ────────────────────────────────
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const password = passwordEl.value.trim();
+            const password    = passwordEl.value.trim();
+            const correctPass = await getPassword();
 
-            if (password === 'whimsical') {
+            if (password === correctPass) {
                 // Success Path
                 errorMsg.classList.add('d-none');
                 cardContainer.classList.remove('shake-card');
