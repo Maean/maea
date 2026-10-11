@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>maea</title>
+    <!-- Web Fonts — local, works offline -->
+    <link rel="stylesheet" href="vendor/fonts/fonts_local.css">
+    <!-- Bootstrap 5 CSS — local, works offline -->
+    <link href="vendor/bootstrap.min.css" rel="stylesheet">
+    <!-- Lucide Icons — local, works offline -->
+    <script src="vendor/lucide.min.js"></script>
+    <!-- Custom Whimsical Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="cosmic-bg">
+
+    <!-- Interactive Canvas for Starlight, Constellations & Hyperspace Warp -->
+    <canvas id="space-canvas"></canvas>
+
+    <!-- Deep Ambient Glowing Nebulae -->
+    <div class="nebula-container" aria-hidden="true">
+        <div class="nebula nebula-1"></div>
+        <div class="nebula nebula-2"></div>
+        <div class="nebula nebula-3"></div>
+    </div>
+
+    <!-- Floating Background Star & Sparkle Accents -->
+    <div class="star-accent accent-1" aria-hidden="true"><i data-lucide="star"></i></div>
+    <div class="star-accent accent-2" aria-hidden="true"><i data-lucide="sparkles"></i></div>
+    <div class="star-accent accent-3" aria-hidden="true"><i data-lucide="star"></i></div>
+    <div class="star-accent accent-4" aria-hidden="true"><i data-lucide="sparkles"></i></div>
+
+    <!-- Centered Login Layout -->
+    <main class="login-wrapper">
+        <!-- Ambient Glowing Aura behind Card -->
+        <div class="card-ambient-aura"></div>
+
+        <!-- Specular Glassmorphism Card -->
+        <div class="glass-card text-center" id="card-container">
+            <!-- Dynamic Cursor Spotlight Border -->
+            <div class="card-spotlight-border"></div>
+
+            <div class="card-inner">
+                <!-- Floating Glowing Avatar Emblem -->
+                <div class="avatar-hero mx-auto">
+                    <div class="avatar-pulse-ring ring-1"></div>
+                    <div class="avatar-pulse-ring ring-2"></div>
+                    <div class="avatar-orbit-ring"></div>
+                    <div class="avatar-orb">
+                        <div class="avatar-sheen"></div>
+                        <i data-lucide="sparkles" class="avatar-icon"></i>
+                    </div>
+                </div>
+
+                <!-- Brand Header -->
+                <div class="brand-header mb-4">
+                    <h1 class="brand-title">maea</h1>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form" autocomplete="off" novalidate>
+                    <!-- Input Wrapper -->
+                    <div class="mb-3">
+                        <div class="input-wrapper" id="input-box">
+                            <i data-lucide="lock" class="input-icon" id="lock-icon"></i>
+                            <input
+                                type="password"
+                                id="password"
+                                class="form-control glass-input text-white"
+                                placeholder="••••••••"
+                                required
+                                autocomplete="current-password"
+                                spellcheck="false"
+                            >
+                            <button type="button" id="toggle-password" class="toggle-btn" aria-label="Toggle password visibility">
+                                <i data-lucide="eye" id="eye-icon"></i>
+                            </button>
+                        </div>
+                        <!-- Inline error sits right below the input -->
+                        <div id="error-msg" class="inline-error d-none" role="alert">
+                            <i data-lucide="lock" class="error-icon"></i>
+                            <span id="error-text">Incorrect key. Try again.</span>
+                        </div>
+                    </div>
+
+                    <!-- Caps Lock Alert -->
+                    <div id="caps-lock-warning" class="caps-warning d-none">
+                        <i data-lucide="arrow-big-up" class="caps-icon"></i>
+                        <span>Caps Lock is ON</span>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="submit-btn" class="btn btn-glow w-100 text-white fw-bold py-3 d-flex align-items-center justify-content-center gap-2">
+                        <i data-lucide="sparkles" id="btn-icon"></i>
+                        <span id="btn-text">ACCESS</span>
+                        <span class="btn-sheen"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Center Luxury Glass Toast — Success -->
+    <div id="access-toast" class="access-toast" role="alert" aria-live="assertive">
+        <div class="toast-glow"></div>
+        <div class="toast-content">
+            <div class="toast-icon-wrapper">
+                <i data-lucide="check" class="toast-icon"></i>
+            </div>
+            <div class="toast-text-group">
+                <div class="toast-title">Access Granted</div>
+                <div class="toast-desc">Welcome to maea</div>
+            </div>
+        </div>
+        <div class="toast-progress-bar"></div>
+    </div>
+
+    <!-- Center Luxury Glass Toast — Error -->
+    <div id="error-toast" class="access-toast error-toast" role="alert" aria-live="assertive">
+        <div class="toast-content">
+            <div class="toast-icon-wrapper toast-icon-error">
+                <i data-lucide="x" class="toast-icon"></i>
+            </div>
+            <div class="toast-text-group">
+                <div class="toast-title">Access Denied</div>
+                <div class="toast-desc">Wrong secret key. Try again.</div>
+            </div>
+        </div>
+        <div class="toast-progress-bar toast-progress-error"></div>
+    </div>
+
+    <!-- Bootstrap JS Bundle — local, works offline -->
+    <script src="vendor/bootstrap.bundle.min.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
