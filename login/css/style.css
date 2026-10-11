@@ -163,6 +163,9 @@ body.cosmic-bg {
     padding: 6rem 1.5rem 2.5rem;
     perspective: 1200px;
     overflow-y: auto;
+    /* Keyboard-aware: when soft keyboard opens on mobile,
+       the viewport shrinks — keep card visible */
+    padding-bottom: env(safe-area-inset-bottom, 2.5rem);
 }
 
 /* Ambient Radial Backlight */
@@ -718,7 +721,9 @@ body.cosmic-bg {
 /* Base adjustments for all small screens (≤ 480px) */
 @media (max-width: 480px) {
     .login-wrapper {
-        padding: 5.5rem 1.1rem 2rem;
+        /* Less top padding so card sits centered, not top-heavy */
+        padding: 4.5rem 1.1rem 1.5rem;
+        align-items: center;
     }
 
     .glass-card {
@@ -748,14 +753,14 @@ body.cosmic-bg {
     }
 
     .glass-input {
-        font-size: 0.95rem;
-        padding: 12px 44px 12px 42px;
+        font-size: 1rem; /* bigger = easier to tap */
+        padding: 14px 48px 14px 44px;
     }
 
     .btn-glow {
-        font-size: 0.9rem;
-        padding-top: 0.75rem !important;
-        padding-bottom: 0.75rem !important;
+        font-size: 0.95rem;
+        padding-top: 0.9rem !important;
+        padding-bottom: 0.9rem !important;
         border-radius: 14px;
     }
 
@@ -769,9 +774,12 @@ body.cosmic-bg {
     .toast-title { font-size: 0.92rem; }
     .toast-desc  { font-size: 0.74rem; }
 
-    /* Keep floating accents small on mobile */
     .accent-1, .accent-3 { width: 14px; height: 14px; }
     .accent-2, .accent-4 { width: 16px; height: 16px; }
+
+    /* Disable 3D perspective on touch — prevents glitchy transforms */
+    .login-wrapper { perspective: none; }
+    .glass-card { transform-style: flat; }
 }
 
 /* Very small phones (≤ 360px — e.g. older Androids) */
