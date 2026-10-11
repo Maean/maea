@@ -71,6 +71,26 @@ document.addEventListener('DOMContentLoaded', () => {
             mouse.y = -1000;
         });
 
+        // Touch support for interactive constellations on mobile
+        window.addEventListener('touchstart', (e) => {
+            if (e.touches && e.touches[0]) {
+                mouse.x = e.touches[0].clientX;
+                mouse.y = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches && e.touches[0]) {
+                mouse.x = e.touches[0].clientX;
+                mouse.y = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        window.addEventListener('touchend', () => {
+            mouse.x = -1000;
+            mouse.y = -1000;
+        }, { passive: true });
+
         const starColors = ['#ffffff', '#f5d0fe', '#c084fc', '#818cf8', '#38bdf8'];
         const STAR_COUNT = Math.min(130, Math.floor((width * height) / 9000));
         const stars = [];
@@ -274,13 +294,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         animateCanvas();
 
+        let lastWidth = window.innerWidth;
         window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
-            stars.length = 0;
-            const newCount = Math.min(130, Math.floor((width * height) / 9000));
-            for (let i = 0; i < newCount; i++) {
-                stars.push(new Star());
+            const newWidth = window.innerWidth;
+            const newHeight = window.innerHeight;
+            width = canvas.width = newWidth;
+            height = canvas.height = newHeight;
+
+            // Only re-generate stars if width changed significantly (screen rotation)
+            // This prevents stars from flickering/re-spawning when the mobile soft keyboard opens
+            if (Math.abs(newWidth - lastWidth) > 60) {
+                lastWidth = newWidth;
+                stars.length = 0;
+                const newCount = Math.min(130, Math.floor((width * height) / 9000));
+                for (let i = 0; i < newCount; i++) {
+                    stars.push(new Star());
+                }
             }
         });
     }
@@ -326,6 +355,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (passwordEl && inputBox) {
         passwordEl.addEventListener('focus', () => {
             inputBox.classList.add('focused');
+            // On mobile devices, smoothly scroll card into view when keyboard opens
+            if (window.innerWidth <= 480) {
+                setTimeout(() => {
+                    cardContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 280);
+            }
         });
 
         passwordEl.addEventListener('blur', () => {

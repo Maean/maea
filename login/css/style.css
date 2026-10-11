@@ -156,16 +156,15 @@ body.cosmic-bg {
     position: relative;
     z-index: 10;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     min-height: 100dvh;
-    padding: 6rem 1.5rem 2.5rem;
+    padding: calc(env(safe-area-inset-top, 0px) + 5.5rem) 1.5rem calc(env(safe-area-inset-bottom, 0px) + 2.5rem);
     perspective: 1200px;
     overflow-y: auto;
-    /* Keyboard-aware: when soft keyboard opens on mobile,
-       the viewport shrinks — keep card visible */
-    padding-bottom: env(safe-area-inset-bottom, 2.5rem);
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Ambient Radial Backlight */
@@ -193,6 +192,8 @@ body.cosmic-bg {
     border-radius: 32px;
     width: 100%;
     max-width: 430px;
+    margin-top: auto;
+    margin-bottom: auto;
     box-shadow: 
         0 40px 80px -15px rgba(0, 0, 0, 0.8),
         0 0 50px -10px rgba(168, 85, 247, 0.25);
@@ -452,27 +453,33 @@ body.cosmic-bg {
 
 .toggle-btn {
     position: absolute;
-    right: 12px;
+    right: 4px;
     top: 50%;
     transform: translateY(-50%);
     background: transparent;
     border: none;
     outline: none;
     box-shadow: none;
-    padding: 6px;
+    width: 44px;
+    height: 44px;
     cursor: pointer;
     color: var(--text-muted);
-    border-radius: 8px;
+    border-radius: 10px;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .toggle-btn:hover {
     color: var(--text-white);
     background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-50%) scale(1.08);
+}
+
+.toggle-btn:active {
+    transform: translateY(-50%) scale(0.92);
 }
 
 .toggle-btn svg {
@@ -502,24 +509,24 @@ body.cosmic-bg {
     height: 15px;
 }
 
-/* ── Inline Error (below input, right-aligned) ──────────────────────────── */
+/* ── Inline Error (below input, centered & crisp) ───────────────────────── */
 .inline-error {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 6px;
-    margin-top: 8px;
-    padding-right: 4px;
-    color: rgba(255, 180, 195, 0.75);
-    font-size: 0.78rem;
-    font-weight: 500;
+    margin-top: 10px;
+    color: #ff8fa3;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     animation: slideDown 0.2s ease both;
 }
 
 .error-icon {
-    width: 13px;
-    height: 13px;
-    color: rgba(255, 150, 165, 0.65);
+    width: 14px;
+    height: 14px;
+    color: #ff6b8b;
     flex-shrink: 0;
 }
 
@@ -535,14 +542,24 @@ body.cosmic-bg {
     background: linear-gradient(135deg, #9333ea 0%, #6366f1 50%, #4f46e5 100%);
     border: 1px solid rgba(255, 255, 255, 0.25);
     border-radius: 16px;
+    min-height: 52px;
     box-shadow: 
         0 10px 30px rgba(147, 51, 234, 0.55),
         0 2px 4px rgba(0, 0, 0, 0.2),
         inset 0 1px 1px rgba(255, 255, 255, 0.4);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     letter-spacing: 0.16em;
     font-size: 0.96rem;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+}
+
+.btn-glow:active {
+    transform: scale(0.97);
+    box-shadow: 0 4px 15px rgba(147, 51, 234, 0.4);
+    filter: brightness(1.15);
 }
 
 .btn-glow svg {
@@ -718,29 +735,120 @@ body.cosmic-bg {
 
 /* ── Responsive — Mobile First ──────────────────────────────────────────── */
 
-/* Base adjustments for all small screens (≤ 480px) */
+/* Small & Medium Phones (≤ 480px) */
 @media (max-width: 480px) {
     .login-wrapper {
-        /* Less top padding so card sits centered, not top-heavy */
-        padding: 4.5rem 1.1rem 1.5rem;
-        align-items: center;
+        padding: calc(env(safe-area-inset-top, 0px) + 3.75rem) 1.25rem calc(env(safe-area-inset-bottom, 0px) + 1.75rem);
+        perspective: none;
     }
 
     .glass-card {
-        max-width: 100%;
-        border-radius: 26px;
+        max-width: 390px;
+        width: 100%;
+        border-radius: 28px;
+        transform-style: flat;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    .card-spotlight-border {
+        border-radius: 29px;
     }
 
     .card-inner {
-        padding: 2.75rem 1.35rem 1.85rem;
-        border-radius: 26px;
+        padding: 3rem 1.45rem 2rem;
+        border-radius: 28px;
+    }
+
+    .avatar-hero {
+        width: 80px;
+        height: 80px;
+        margin-top: -5.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .avatar-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+    .brand-title {
+        font-size: 2.1rem;
+        margin-bottom: 1.35rem;
+    }
+
+    .glass-input {
+        font-size: 16px !important; /* CRITICAL: Prevents iOS Safari auto-zoom on input focus */
+        padding: 14px 48px 14px 44px;
+        letter-spacing: 0.2em;
+        border-radius: 16px;
+    }
+
+    .input-icon {
+        left: 15px;
+        width: 18px;
+        height: 18px;
+    }
+
+    .btn-glow {
+        min-height: 52px;
+        font-size: 0.98rem;
+        letter-spacing: 0.15em;
+        border-radius: 16px;
+    }
+
+    .inline-error {
+        font-size: 0.84rem;
+        margin-top: 10px;
+    }
+
+    .access-toast {
+        width: calc(100% - 2rem);
+        max-width: 360px;
+        min-width: unset;
+        top: calc(env(safe-area-inset-top, 0px) + 1rem);
+        padding: 0.85rem 1.15rem;
+        border-radius: 18px;
+    }
+
+    .toast-title { font-size: 0.92rem; }
+    .toast-desc  { font-size: 0.76rem; }
+
+    .star-accent { opacity: 0.4; }
+    .accent-1, .accent-3 { width: 14px; height: 14px; }
+    .accent-2, .accent-4 { width: 16px; height: 16px; }
+
+    /* Performance optimization on mobile GPU */
+    .nebula {
+        filter: blur(65px);
+        opacity: 0.28;
+    }
+}
+
+/* Very small phones (≤ 360px — e.g. iPhone SE, older Androids) */
+@media (max-width: 360px) {
+    .login-wrapper {
+        padding: calc(env(safe-area-inset-top, 0px) + 3.25rem) 0.85rem calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
+    }
+
+    .card-inner {
+        padding: 2.6rem 1.15rem 1.75rem;
+        border-radius: 24px;
+    }
+
+    .glass-card {
+        border-radius: 24px;
+    }
+
+    .card-spotlight-border {
+        border-radius: 25px;
     }
 
     .avatar-hero {
         width: 72px;
         height: 72px;
         margin-top: -5rem;
-        margin-bottom: 1.1rem;
+        margin-bottom: 1rem;
     }
 
     .avatar-icon {
@@ -753,58 +861,8 @@ body.cosmic-bg {
     }
 
     .glass-input {
-        font-size: 1rem; /* bigger = easier to tap */
-        padding: 14px 48px 14px 44px;
-    }
-
-    .btn-glow {
-        font-size: 0.95rem;
-        padding-top: 0.9rem !important;
-        padding-bottom: 0.9rem !important;
-        border-radius: 14px;
-    }
-
-    .access-toast {
-        min-width: 90vw;
-        max-width: 90vw;
-        padding: 0.9rem 1.25rem 1rem;
-        border-radius: 16px;
-    }
-
-    .toast-title { font-size: 0.92rem; }
-    .toast-desc  { font-size: 0.74rem; }
-
-    .accent-1, .accent-3 { width: 14px; height: 14px; }
-    .accent-2, .accent-4 { width: 16px; height: 16px; }
-
-    /* Disable 3D perspective on touch — prevents glitchy transforms */
-    .login-wrapper { perspective: none; }
-    .glass-card { transform-style: flat; }
-}
-
-/* Very small phones (≤ 360px — e.g. older Androids) */
-@media (max-width: 360px) {
-    .login-wrapper {
-        padding: 5rem 0.85rem 1.5rem;
-    }
-
-    .card-inner {
-        padding: 2.5rem 1.1rem 1.6rem;
-    }
-
-    .avatar-hero {
-        width: 64px;
-        height: 64px;
-        margin-top: -4.5rem;
-    }
-
-    .brand-title {
-        font-size: 1.65rem;
-    }
-
-    .glass-input {
-        font-size: 0.9rem;
-        letter-spacing: 0.12em;
+        font-size: 16px !important;
+        padding: 13px 44px 13px 40px;
     }
 }
 
